@@ -1,6 +1,6 @@
 from transformers import pipeline
 from util.hugging import get_local_path
-from transformers import AutoTokenizer, AutoModelWithLMHead
+from transformers import MBartTokenizer, BartModel
 
 tokenizer = AutoTokenizer.from_pretrained(get_local_path("hfl/chinese-bert-wwm-ext"))
 model = AutoModelWithLMHead.from_pretrained(get_local_path("hfl/chinese-bert-wwm-ext"))

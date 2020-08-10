@@ -4,9 +4,9 @@ from transformers import BertTokenizer, BertModel, AutoModelWithLMHead, AutoToke
 from util.hugging import get_local_path
 
 
-name = 'bert-base-uncased'
+name = 'xlnet-base-cased'
 tokenizer = AutoTokenizer.from_pretrained(get_local_path(name))
 model = AutoModelWithLMHead.from_pretrained(get_local_path(name))
 
-nlp = pipeline("fill-mask", tokenizer=tokenizer, model=model)
-pprint(nlp(f"I am a {nlp.tokenizer.mask_token} who licks pussy."))
+text_generator = pipeline("text-generation", tokenizer=tokenizer, model=model)
+print(text_generator("As far as I am concerned, I will", max_length=50, do_sample=False))
