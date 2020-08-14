@@ -1,34 +1,16 @@
-from transformers import pipeline
-from transformers import BertTokenizer, BertModel, AutoModelWithLMHead, AutoTokenizer, T5PreTrainedModel, T5Tokenizer
+from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig
 from util.hugging import get_local_path
 
-name = 'sshleifer/distilbart-xsum-12-6'
-tokenizer = AutoTokenizer.from_pretrained(get_local_path(name))
-model = AutoModelWithLMHead.from_pretrained(get_local_path(name))
+# see ``examples/summarization/bart_from_transformers/run_eval.py`` for a longer example
+model = BartForConditionalGeneration.from_pretrained(get_local_path('facebook/bart-base'))
+tokenizer = BartTokenizer.from_pretrained(get_local_path('facebook/bart-base'))
 
-summarizer = pipeline("summarization", model=model, tokenizer=tokenizer)
+ARTICLE_TO_SUMMARIZE = '''
+Gliding past President Donald Trump's sexist depictions of her as "mean" and "nasty," the senator from California shredded Trump's White House record with the agility that comes from her years as a courtroom prosecutor. Yet she delivered those critiques with bright notes of hope and optimism -- accentuated by the smiles that are expected from female politicians.
+"The President's mismanagement of the pandemic has plunged us into the worst economic crisis since the Great Depression, and we're experiencing a moral reckoning with racism and systemic injustice that has brought a new coalition of conscience to the streets of our country demanding change," Harris said at the afternoon event in Wilmington, Delaware.
+'''
+inputs = tokenizer([ARTICLE_TO_SUMMARIZE], max_length=1024, return_tensors='pt')
 
-ARTICLE = """ New York (CNN)When Liana Barrientos was 23 years old, she got married in Westchester County, New York.
-    A year later, she got married again in Westchester County, but to a different man and without divorcing her first husband.
-    Only 18 days after that marriage, she got hitched yet again. Then, Barrientos declared "I do" five more times, sometimes only within two weeks of each other.
-    In 2010, she married once more, this time in the Bronx. In an application for a marriage license, she stated it was her "first and only" marriage.
-    Barrientos, now 39, is facing two criminal counts of "offering a false instrument for filing in the first degree," referring to her false statements on the
-    2010 marriage license application, according to court documents.
-    Prosecutors said the marriages were part of an immigration scam.
-    On Friday, she pleaded not guilty at State Supreme Court in the Bronx, according to her attorney, Christopher Wright, who declined to comment further.
-    After leaving court, Barrientos was arrested and charged with theft of service and criminal trespass for allegedly sneaking into the New York subway through an emergency exit, said Detective
-    Annette Markowski, a police spokeswoman. In total, Barrientos has been married 10 times, with nine of her marriages occurring between 1999 and 2002.
-    All occurred either in Westchester County, Long Island, New Jersey or the Bronx. She is believed to still be married to four men, and at one time, she was married to eight men at once, prosecutors say.
-    Prosecutors said the immigration scam involved some of her husbands, who filed for permanent residence status shortly after the marriages.
-    Any divorces happened only after such filings were approved. It was unclear whether any of the men will be prosecuted.
-    The case was referred to the Bronx District Attorney\'s Office by Immigration and Customs Enforcement and the Department of Homeland Security\'sy
-    
-    Investigation Division. Seven of the men are from so-called "red-flagged" countries, including Egypt, Turkey, Georgia, Pakistan and Mali.
-    Her eighth husband, Rashid Rajput, was deported in 2006 to his native Pakistan after an investigation by the Joint Terrorism Task Force.
-    If convicted, Barrientos faces up to four years in prison.  Her next court appearance is scheduled for May 18.
-    """
-
-summary = summarizer(ARTICLE, max_length=130, min_length=30, do_sample=False)
-
-print(summary)
-print(len(ARTICLE), len(summary[0]['summary_text']))
+# Generate Summary
+summary_ids = model.generate(inputs['input_ids'], num_beams=10, max_length=15, early_stopping=True)
+print([tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False) for g in summary_ids])

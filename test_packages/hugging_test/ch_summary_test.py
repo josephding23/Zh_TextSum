@@ -1,9 +1,9 @@
 from transformers import pipeline
 from util.hugging import get_local_path
-from transformers import MBartTokenizer, BartModel
+from transformers import MBartTokenizer, BartModel, AutoTokenizer, AutoModelWithLMHead
 
-tokenizer = AutoTokenizer.from_pretrained(get_local_path("hfl/chinese-bert-wwm-ext"))
-model = AutoModelWithLMHead.from_pretrained(get_local_path("hfl/chinese-bert-wwm-ext"))
+tokenizer = AutoTokenizer.from_pretrained(get_local_path("facebook/bart-large-cnn"))
+model = AutoModelWithLMHead.from_pretrained(get_local_path("facebook/bart-large-cnn"))
 
 summarizer = pipeline("summarization",
                       model=model,
@@ -24,10 +24,10 @@ ARTICLE = """
 距离11月3日的大选日还剩下112天，对于特朗普和拜登来说，严密准确的竞选策略和执行力比民调的数字，可能更让他们安心。
           """
 
-print(len(ARTICLE))
+# print(len(ARTICLE))
 
-inputs = tokenizer.encode("summarize: " + ARTICLE, return_tensors="pt", max_length=512)
-outputs = model.generate(inputs, max_length=150, min_length=40, length_penalty=2.0, num_beams=4, early_stopping=True)
+# inputs = tokenizer.encode("summarize: " + ARTICLE, return_tensors="pt", max_length=512)
+# outputs = model.generate(inputs, max_length=150, min_length=40, length_penalty=2.0, num_beams=4, early_stopping=True)
 
 # print(outputs)
 summary = summarizer(ARTICLE, max_length=150, min_length=40, do_sample=False)

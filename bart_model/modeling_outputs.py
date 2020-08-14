@@ -34,7 +34,7 @@ class BaseModelOutput(ModelOutput):
 
 @dataclass
 class BaseModelOutputWithPooling(ModelOutput):
-    """
+    """pip
     Base class for model's outputs that also contains a pooling of the last hidden states.
 
     Args:

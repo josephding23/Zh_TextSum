@@ -36,9 +36,25 @@ from .data import SquadExample, squad_convert_examples_to_features
 from .file_utils import add_end_docstrings, is_tf_available, is_torch_available
 from .modelcard import ModelCard
 from .tokenization_auto import AutoTokenizer
+from .tokenization_bert import BasicTokenizer
 from .tokenization_utils import PreTrainedTokenizer
 from .tokenization_utils_base import BatchEncoding, PaddingStrategy
 
+
+if is_tf_available():
+    import tensorflow as tf
+    from .modeling_tf_auto import (
+        TFAutoModel,
+        TFAutoModelForSequenceClassification,
+        TFAutoModelForQuestionAnswering,
+        TFAutoModelForTokenClassification,
+        TFAutoModelWithLMHead,
+        TF_MODEL_WITH_LM_HEAD_MAPPING,
+        TF_MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING,
+        TF_MODEL_FOR_TOKEN_CLASSIFICATION_MAPPING,
+        TF_MODEL_FOR_QUESTION_ANSWERING_MAPPING,
+        TFAutoModelForCausalLM,
+    )
 
 if is_torch_available():
     import torch
@@ -1767,13 +1783,13 @@ class SummarizationPipeline(Pipeline):
     task identifier: :obj:`"summarization"`.
 
     The models that this pipeline can use are models that have been fine-tuned on a summarization task,
-    which is currently, '`bart_from_transformers-large-cnn`', '`t5-small`', '`t5-base`', '`t5-large`', '`t5-3b`', '`t5-11b`'.
+    which is currently, '`bart-large-cnn`', '`t5-small`', '`t5-base`', '`t5-large`', '`t5-3b`', '`t5-11b`'.
     See the up-to-date list of available models on
     `huggingface.co/models <https://huggingface.co/models?filter=summarization>`__.
 
     Usage::
 
-        # use bart_from_transformers in pytorch
+        # use bart in pytorch
         summarizer = pipeline("summarization")
         summarizer("Sam Shleifer writes the best docstring examples in the whole world.", min_length=5, max_length=20)
 
@@ -2386,9 +2402,9 @@ SUPPORTED_TASKS = {
         "tf": TFAutoModelForSequenceClassification if is_tf_available() else None,
         "pt": AutoModelForSequenceClassification if is_torch_available() else None,
         "default": {
-            "model": {"pt": "facebook/bart_from_transformers-large-mnli", "tf": "roberta-large-mnli"},
-            "config": {"pt": "facebook/bart_from_transformers-large-mnli", "tf": "roberta-large-mnli"},
-            "tokenizer": {"pt": "facebook/bart_from_transformers-large-mnli", "tf": "roberta-large-mnli"},
+            "model": {"pt": "facebook/bart-large-mnli", "tf": "roberta-large-mnli"},
+            "config": {"pt": "facebook/bart-large-mnli", "tf": "roberta-large-mnli"},
+            "tokenizer": {"pt": "facebook/bart-large-mnli", "tf": "roberta-large-mnli"},
         },
     },
     "conversational": {

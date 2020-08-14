@@ -25,8 +25,8 @@ import torch.nn.functional as F
 from torch import Tensor, nn
 from torch.nn import CrossEntropyLoss
 
-from .activations import ACT2FN
-from .configuration_bart import BartConfig
+from transformers.activations import ACT2FN
+from transformers.configuration_bart import BartConfig
 from .file_utils import (
     add_code_sample_docstrings,
     add_end_docstrings,
@@ -42,7 +42,7 @@ from .modeling_outputs import (
     Seq2SeqQuestionAnsweringModelOutput,
     Seq2SeqSequenceClassifierOutput,
 )
-from .modeling_utils import PreTrainedModel
+from transformers.modeling_utils import PreTrainedModel
 
 
 logger = logging.getLogger(__name__)
@@ -52,11 +52,11 @@ _TOKENIZER_FOR_DOC = "BartTokenizer"
 
 
 BART_PRETRAINED_MODEL_ARCHIVE_LIST = [
-    "facebook/bart_from_transformers-base",
-    "facebook/bart_from_transformers-large",
-    "facebook/bart_from_transformers-large-mnli",
-    "facebook/bart_from_transformers-large-cnn",
-    "facebook/bart_from_transformers-large-xsum",
+    "facebook/bart-base",
+    "facebook/bart-large",
+    "facebook/bart-large-mnli",
+    "facebook/bart-large-cnn",
+    "facebook/bart-large-xsum",
     "facebook/mbart-large-en-ro",
     # See all BART models at https://huggingface.co/models?filter=bart
 ]
@@ -78,9 +78,9 @@ BART_GENERATION_EXAMPLE = r"""
 
         from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig
 
-        # see ``examples/summarization/bart_from_transformers/run_eval.py`` for a longer example
-        model = BartForConditionalGeneration.from_pretrained('facebook/bart_from_transformers-large-cnn')
-        tokenizer = BartTokenizer.from_pretrained('facebook/bart_from_transformers-large-cnn')
+        # see ``examples/summarization/bart/run_eval.py`` for a longer example
+        model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn')
+        tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
 
         ARTICLE_TO_SUMMARIZE = "My friends are cool but they eat too many carbs."
         inputs = tokenizer([ARTICLE_TO_SUMMARIZE], max_length=1024, return_tensors='pt')
@@ -836,7 +836,7 @@ class BartModel(PretrainedBartModel):
     @add_start_docstrings_to_callable(BART_INPUTS_DOCSTRING)
     @add_code_sample_docstrings(
         tokenizer_class=_TOKENIZER_FOR_DOC,
-        checkpoint="facebook/bart_from_transformers-large",
+        checkpoint="facebook/bart-large",
         output_type=BaseModelOutputWithPast,
         config_class=_CONFIG_FOR_DOC,
     )
@@ -991,12 +991,12 @@ class BartForConditionalGeneration(PretrainedBartModel):
 
     Conditional generation example::
 
-            # Mask filling only works for bart_from_transformers-large
+            # Mask filling only works for bart-large
             from transformers import BartTokenizer, BartForConditionalGeneration
-            tokenizer = BartTokenizer.from_pretrained('facebook/bart_from_transformers-large')
+            tokenizer = BartTokenizer.from_pretrained('facebook/bart-large')
             TXT = "My friends are <mask> but they eat too many carbs."
 
-            model = BartForConditionalGeneration.from_pretrained('facebook/bart_from_transformers-large')
+            model = BartForConditionalGeneration.from_pretrained('facebook/bart-large')
             input_ids = tokenizer([TXT], return_tensors='pt')['input_ids']
             logits = model(input_ids).logits
 
@@ -1132,7 +1132,7 @@ class BartForSequenceClassification(PretrainedBartModel):
     @add_start_docstrings_to_callable(BART_INPUTS_DOCSTRING)
     @add_code_sample_docstrings(
         tokenizer_class=_TOKENIZER_FOR_DOC,
-        checkpoint="facebook/bart_from_transformers-large",
+        checkpoint="facebook/bart-large",
         output_type=Seq2SeqSequenceClassifierOutput,
         config_class=_CONFIG_FOR_DOC,
     )
@@ -1218,7 +1218,7 @@ class BartForQuestionAnswering(PretrainedBartModel):
     @add_start_docstrings_to_callable(BART_INPUTS_DOCSTRING)
     @add_code_sample_docstrings(
         tokenizer_class=_TOKENIZER_FOR_DOC,
-        checkpoint="facebook/bart_from_transformers-large",
+        checkpoint="facebook/bart-large",
         output_type=Seq2SeqQuestionAnsweringModelOutput,
         config_class=_CONFIG_FOR_DOC,
     )

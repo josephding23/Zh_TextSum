@@ -44,7 +44,7 @@ from .data import (
 )
 
 # Files and general utilities
-from .file_utils import (
+from transformers.file_utils import (
     CONFIG_NAME,
     MODEL_CARD_NAME,
     PYTORCH_PRETRAINED_BERT_CACHE,
@@ -63,16 +63,16 @@ from .file_utils import (
     is_torch_available,
     is_torch_tpu_available,
 )
-from .hf_argparser import HfArgumentParser
+from transformers.hf_argparser import HfArgumentParser
 
 # Integrations
 from .integrations import is_comet_available, is_tensorboard_available, is_wandb_available
 
 # Model Cards
-from .modelcard import ModelCard
+from transformers.modelcard import ModelCard
 
 # TF 2.0 <=> PyTorch conversion utilities
-from .modeling_tf_pytorch_utils import (
+from transformers.modeling_tf_pytorch_utils import (
     convert_tf_weight_name_to_pt_weight_name,
     load_pytorch_checkpoint_in_tf2_model,
     load_pytorch_model_in_tf2_model,
@@ -105,11 +105,11 @@ from .pipelines import (
 )
 
 # Tokenizers
-from .tokenization_auto import TOKENIZER_MAPPING, AutoTokenizer
-from .tokenization_bart import BartTokenizer, BartTokenizerFast, MBartTokenizer
+from transformers.tokenization_auto import TOKENIZER_MAPPING, AutoTokenizer
+from transformers.tokenization_bart import BartTokenizer, BartTokenizerFast, MBartTokenizer
 
-from .tokenization_utils import PreTrainedTokenizer
-from .tokenization_utils_base import (
+from transformers.tokenization_utils import PreTrainedTokenizer
+from transformers.tokenization_utils_base import (
     BatchEncoding,
     CharSpan,
     PreTrainedTokenizerBase,
@@ -117,11 +117,11 @@ from .tokenization_utils_base import (
     TensorType,
     TokenSpan,
 )
-from .tokenization_utils_fast import PreTrainedTokenizerFast
+from transformers.tokenization_utils_fast import PreTrainedTokenizerFast
 
 # Trainer
-from .trainer_utils import EvalPrediction, set_seed
-from .training_args import TrainingArguments
+from transformers.trainer_utils import EvalPrediction, set_seed
+from transformers.training_args import TrainingArguments
 
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
@@ -133,7 +133,7 @@ if is_sklearn_available():
 # Modeling
 if is_torch_available():
 
-    from .modeling_bart import (
+    from transformers.modeling_bart import (
         PretrainedBartModel,
         BartForSequenceClassification,
         BartModel,
@@ -143,7 +143,7 @@ if is_torch_available():
     )
 
     # Optimization
-    from .optimization import (
+    from transformers.optimization import (
         AdamW,
         get_constant_schedule,
         get_constant_schedule_with_warmup,
@@ -153,7 +153,7 @@ if is_torch_available():
     )
 
     # Trainer
-    from .trainer import Trainer, set_seed, torch_distributed_zero_first, EvalPrediction
+    from transformers.trainer import Trainer, set_seed, torch_distributed_zero_first, EvalPrediction
     from .data.data_collator import (
         default_data_collator,
         DataCollator,
