@@ -7,3 +7,6 @@
 *.iml
 out
 gen
+/pretrained_thinned/
+/models/
+/datasets/
