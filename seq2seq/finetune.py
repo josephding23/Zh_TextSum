@@ -74,7 +74,7 @@ class SummarizationModule(BaseTransformer):
     def __init__(self, hparams, **kwargs):
         super().__init__(hparams, num_labels=None, mode=self.mode, **kwargs)
         use_task_specific_params(self.model, "summarization")
-        save_git_info(self.hparams.output_dir)
+        # save_git_info(self.hparams.output_dir)
         self.metrics_save_path = Path(self.output_dir) / "metrics.json"
         self.hparams_save_path = Path(self.output_dir) / "hparams.pkl"
         pickle_save(self.hparams, self.hparams_save_path)
@@ -107,7 +107,7 @@ class SummarizationModule(BaseTransformer):
             freeze_params(self.model.get_encoder())
             assert_all_frozen(self.model.get_encoder())
 
-        self.hparams.git_sha = get_git_info()["repo_sha"]
+        # self.hparams.git_sha = get_git_info()["repo_sha"]
         self.num_workers = hparams.num_workers
         self.decoder_start_token_id = None
         if self.model.config.decoder_start_token_id is None and isinstance(self.tokenizer, MBartTokenizer):
