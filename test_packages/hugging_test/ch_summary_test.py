@@ -4,17 +4,19 @@ from transformers import MBartTokenizer, BartModel, AutoTokenizer, AutoModelWith
 import random
 
 nplcc2017sum_path = '../../models/bart-base-nplcc2017sum/best_tfmr'
-
+unilm_path = '../../models/torch_unilm_model'
+unilm_base_path = '../pretrained_thinned/microsoft/unilm-base-cased'
 dataset_dir = '../../datasets/nlpcc2017textsummarization/formatted/'
 
 article_dir = dataset_dir + 'test.source'
 abstract_dir = dataset_dir + 'test.target'
 
-random_num = random.randint(0, 5000)
-
 
 with open(article_dir, 'r', encoding='UTF-8') as p:
     lines = p.readlines()
+    random_num = random.randint(0, 5000)
+    while len(lines[random_num]) >= 1024:
+        random_num = random.randint(0, 5000)
     article = lines[random_num]
 
 with open(abstract_dir, 'r', encoding='UTF-8') as p:

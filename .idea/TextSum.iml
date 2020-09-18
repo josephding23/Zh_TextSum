@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="(TestSum) Remote Python 3.7.6 (sftp://ouc@222.195.151.21:3906/home/ouc/anaconda3/bin/python)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.7.9 (sftp://ailven@121.251.228.2:22/home/ailven/anaconda3/envs/textsum/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

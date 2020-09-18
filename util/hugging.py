@@ -15,3 +15,8 @@ def get_local_path(model_name):
     }
 
     return path_dict[model_name]
+
+
+if __name__ == '__main__':
+    import torch
+    print(torch.cuda.is_available())
